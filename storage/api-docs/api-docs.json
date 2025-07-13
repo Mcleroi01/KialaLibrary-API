@@ -1,0 +1,516 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "KialaLibrary API",
+        "description": "API RESTful para gestão de livros e empréstimos",
+        "contact": {
+            "name": "Musongela Carlo",
+            "email": "musongelacarlo54@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://kialaLibrary.test/api/v1",
+            "description": "Servidor local"
+        }
+    ],
+    "paths": {
+        "/books": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Get list of books",
+                "description": "Returns list of books",
+                "operationId": "getBooksList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Book"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Create a new book",
+                "operationId": "b10f5fe35eefa47e974dd4b333d870b1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "author",
+                                    "year"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Clean Code"
+                                    },
+                                    "author": {
+                                        "type": "string",
+                                        "example": "Robert C. Martin"
+                                    },
+                                    "genre": {
+                                        "type": "string",
+                                        "example": "Programming"
+                                    },
+                                    "year": {
+                                        "type": "integer",
+                                        "example": 2024
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Book created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Book"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/books/{id}": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Get book by ID",
+                "operationId": "e94109dcb4f4d40b58a210b43d94016d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the book",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Book found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Book"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Book not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Update a book",
+                "operationId": "7430c1078c3cb5da552b2fd50409f8ea",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the book to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Refatoração"
+                                    },
+                                    "author": {
+                                        "type": "string",
+                                        "example": "Martin Fowler"
+                                    },
+                                    "genre": {
+                                        "type": "string",
+                                        "example": "Engenharia de Software"
+                                    },
+                                    "year": {
+                                        "type": "integer",
+                                        "example": 2023
+                                    },
+                                    "available": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Book updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Delete a book",
+                "operationId": "41c44a46960ad1a921ba5bfbf16ea7b8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the book to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Book deleted successfully"
+                    }
+                }
+            }
+        },
+        "/books/search": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Search books by title or author",
+                "operationId": "5ff731788ab21fcaca9a4f3245b2a75d",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search term for title or author",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Matching books",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Book"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/books/available": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Get all available books",
+                "operationId": "937bc557319372100359db8a4dc5286d",
+                "responses": {
+                    "200": {
+                        "description": "List of available books",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Book"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/books/unavailable": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Get all unavailable books",
+                "operationId": "678ed72f84c7bf4c0b2c174525d8974e",
+                "responses": {
+                    "200": {
+                        "description": "List of unavailable books",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Book"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/books/genre/{genre}": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Get books by genre",
+                "operationId": "7c4d6163b32130368f8fbde2cd40ad88",
+                "parameters": [
+                    {
+                        "name": "genre",
+                        "in": "path",
+                        "description": "Genre to filter",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Books of the given genre",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Book"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/books/author/{author}": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Get books by author",
+                "operationId": "626c47396dafc7561a42fa116f0a3717",
+                "parameters": [
+                    {
+                        "name": "author",
+                        "in": "path",
+                        "description": "Author name to filter",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Books by the given author",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Book"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/books/year/{year}": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Get books by publication year",
+                "operationId": "76bc075dadbd12f4a329043d75452b99",
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "path",
+                        "description": "Year to filter",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Books published in the given year",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Book"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/books/stats": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Get book statistics",
+                "operationId": "8cf987628e7520df85e7f5902aec2ee4",
+                "responses": {
+                    "200": {
+                        "description": "Book stats",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 120
+                                        },
+                                        "available": {
+                                            "type": "integer",
+                                            "example": 97
+                                        },
+                                        "genres": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "genre": {
+                                                        "type": "string",
+                                                        "example": "Fiction"
+                                                    },
+                                                    "total": {
+                                                        "type": "integer",
+                                                        "example": 30
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/books/latest": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Get latest added books",
+                "operationId": "2d16a4b7ca138c8b2a96b544ba861e98",
+                "responses": {
+                    "200": {
+                        "description": "Latest books",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Book"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Book": {
+                "title": "Book",
+                "description": "Book model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "O Cão e o Livro"
+                    },
+                    "author": {
+                        "type": "string",
+                        "example": "Carlos Alberto"
+                    },
+                    "genre": {
+                        "type": "string",
+                        "example": "Ficção"
+                    },
+                    "year": {
+                        "type": "integer",
+                        "example": 2024
+                    },
+                    "available": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Book",
+            "description": "Book"
+        }
+    ]
+}
